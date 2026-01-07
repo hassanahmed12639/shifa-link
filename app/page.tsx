@@ -243,7 +243,7 @@ export default function Home() {
       <footer className="container mx-auto px-4 py-6 mt-12 border-t">
         <div className="text-center text-sm text-muted-foreground">
           <p className="mb-2">
-            <strong className="text-foreground">SHIFA LINK</strong> - Pakistan&#39;s first real-time emergency hospital bed availability platform
+            <strong className="text-foreground">SHIFA LINK</strong> - Pakistan&apos;s first real-time emergency hospital bed availability platform
           </p>
           <p className="text-xs">
             This is a UI/UX prototype. Data is for demonstration purposes only.
