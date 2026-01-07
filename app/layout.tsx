@@ -11,7 +11,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "SHIFA LINK - Emergency Hospital Bed Availability",
-  description: "Pakistan's first real-time emergency hospital bed availability platform",
+  description: "Pakistan&apos;s first real-time emergency hospital bed availability platform",
   viewport: "width=device-width, initial-scale=1, maximum-scale=5",
 };
 
