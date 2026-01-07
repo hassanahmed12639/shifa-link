@@ -13,6 +13,12 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: false,
   },
+  // Optimize for production builds
+  swcMinify: true,
+  // Ensure proper image optimization
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
 };
 
 module.exports = nextConfig;
