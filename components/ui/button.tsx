@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { gsap } from "gsap";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
@@ -45,21 +45,15 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {
-    const buttonRef = useRef<HTMLButtonElement>(null);
-    const handlersRef = useRef<{
-      handleMouseEnter: () => void;
-      handleMouseLeave: () => void;
-      handleMouseDown: () => void;
-      handleMouseUp: () => void;
-    } | null>(null);
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
 
     // Merge refs
-    const setRefs = React.useCallback(
+    const setRefs = useCallback(
       (node: HTMLButtonElement | null) => {
         buttonRef.current = node;
         if (typeof ref === "function") {
           ref(node);
-        } else if (ref) {
+        } else if (ref && "current" in ref) {
           (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
         }
       },
@@ -71,43 +65,47 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       if (!button) return;
 
       const handleMouseEnter = () => {
-        gsap.to(button, {
-          scale: 1.05,
-          duration: 0.2,
-          ease: "power2.out",
-        });
+        const currentButton = buttonRef.current;
+        if (currentButton) {
+          gsap.to(currentButton, {
+            scale: 1.05,
+            duration: 0.2,
+            ease: "power2.out",
+          });
+        }
       };
 
       const handleMouseLeave = () => {
-        gsap.to(button, {
-          scale: 1,
-          duration: 0.2,
-          ease: "power2.out",
-        });
+        const currentButton = buttonRef.current;
+        if (currentButton) {
+          gsap.to(currentButton, {
+            scale: 1,
+            duration: 0.2,
+            ease: "power2.out",
+          });
+        }
       };
 
       const handleMouseDown = () => {
-        gsap.to(button, {
-          scale: 0.98,
-          duration: 0.1,
-          ease: "power2.out",
-        });
+        const currentButton = buttonRef.current;
+        if (currentButton) {
+          gsap.to(currentButton, {
+            scale: 0.98,
+            duration: 0.1,
+            ease: "power2.out",
+          });
+        }
       };
 
       const handleMouseUp = () => {
-        gsap.to(button, {
-          scale: 1.05,
-          duration: 0.1,
-          ease: "power2.out",
-        });
-      };
-
-      // Store handlers in ref for cleanup
-      handlersRef.current = {
-        handleMouseEnter,
-        handleMouseLeave,
-        handleMouseDown,
-        handleMouseUp,
+        const currentButton = buttonRef.current;
+        if (currentButton) {
+          gsap.to(currentButton, {
+            scale: 1.05,
+            duration: 0.1,
+            ease: "power2.out",
+          });
+        }
       };
 
       button.addEventListener("mouseenter", handleMouseEnter);
@@ -116,16 +114,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       button.addEventListener("mouseup", handleMouseUp);
 
       return () => {
-        const handlers = handlersRef.current;
-        if (handlers && button) {
-          button.removeEventListener("mouseenter", handlers.handleMouseEnter);
-          button.removeEventListener("mouseleave", handlers.handleMouseLeave);
-          button.removeEventListener("mousedown", handlers.handleMouseDown);
-          button.removeEventListener("mouseup", handlers.handleMouseUp);
-        }
+        button.removeEventListener("mouseenter", handleMouseEnter);
+        button.removeEventListener("mouseleave", handleMouseLeave);
+        button.removeEventListener("mousedown", handleMouseDown);
+        button.removeEventListener("mouseup", handleMouseUp);
       };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      // buttonRef is stable (created with useRef), handlersRef is stable, no dependencies needed
     }, []);
 
     return (
@@ -140,4 +133,3 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button";
 
 export { Button, buttonVariants };
-
