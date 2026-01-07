@@ -123,6 +123,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         button.removeEventListener("mousedown", handleMouseDown);
         button.removeEventListener("mouseup", handleMouseUp);
       };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
