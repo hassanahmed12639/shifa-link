@@ -46,12 +46,29 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const combinedRef = (ref || buttonRef) as React.RefObject<HTMLButtonElement>;
+    const handlersRef = useRef<{
+      handleMouseEnter: () => void;
+      handleMouseLeave: () => void;
+      handleMouseDown: () => void;
+      handleMouseUp: () => void;
+    } | null>(null);
+
+    // Merge refs
+    const setRefs = React.useCallback(
+      (node: HTMLButtonElement | null) => {
+        buttonRef.current = node;
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
+        }
+      },
+      [ref]
+    );
 
     useEffect(() => {
-      if (!combinedRef.current) return;
-
-      const button = combinedRef.current;
+      const button = buttonRef.current;
+      if (!button) return;
 
       const handleMouseEnter = () => {
         gsap.to(button, {
@@ -85,23 +102,34 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         });
       };
 
+      // Store handlers in ref for cleanup
+      handlersRef.current = {
+        handleMouseEnter,
+        handleMouseLeave,
+        handleMouseDown,
+        handleMouseUp,
+      };
+
       button.addEventListener("mouseenter", handleMouseEnter);
       button.addEventListener("mouseleave", handleMouseLeave);
       button.addEventListener("mousedown", handleMouseDown);
       button.addEventListener("mouseup", handleMouseUp);
 
       return () => {
-        button.removeEventListener("mouseenter", handleMouseEnter);
-        button.removeEventListener("mouseleave", handleMouseLeave);
-        button.removeEventListener("mousedown", handleMouseDown);
-        button.removeEventListener("mouseup", handleMouseUp);
+        const handlers = handlersRef.current;
+        if (handlers) {
+          button.removeEventListener("mouseenter", handlers.handleMouseEnter);
+          button.removeEventListener("mouseleave", handlers.handleMouseLeave);
+          button.removeEventListener("mousedown", handlers.handleMouseDown);
+          button.removeEventListener("mouseup", handlers.handleMouseUp);
+        }
       };
     }, []);
 
     return (
       <button
         className={cn(buttonVariants({ variant, size, className }))}
-        ref={combinedRef}
+        ref={setRefs}
         {...props}
       />
     );
