@@ -117,13 +117,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       return () => {
         const handlers = handlersRef.current;
-        if (handlers) {
+        if (handlers && button) {
           button.removeEventListener("mouseenter", handlers.handleMouseEnter);
           button.removeEventListener("mouseleave", handlers.handleMouseLeave);
           button.removeEventListener("mousedown", handlers.handleMouseDown);
           button.removeEventListener("mouseup", handlers.handleMouseUp);
         }
       };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // buttonRef is stable (created with useRef), handlersRef is stable, no dependencies needed
     }, []);
 
     return (
