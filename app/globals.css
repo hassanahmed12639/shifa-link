@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* SHIFA LINK Design System Colors - Light Mode */
+    /* Background & Base */
+    --background: 0 0% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    
+    /* Primary: Emergency Blue (#0F4C81) */
+    --primary: 208 78% 28%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary: Light Gray */
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 222 47% 11%;
+    
+    /* Accent: Emergency Red (#D32F2F) */
+    --accent: 0 66% 50%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* Muted */
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 16% 47%;
+    
+    /* Destructive: Emergency Red */
+    --destructive: 0 66% 50%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Success: Green (#2E7D32) */
+    --success: 123 47% 33%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Warning: Amber (#ED6C02) */
+    --warning: 25 98% 47%;
+    --warning-foreground: 0 0% 100%;
+    
+    /* Danger: Emergency Red */
+    --danger: 0 66% 50%;
+    --danger-foreground: 0 0% 100%;
+    
+    /* Borders & Inputs */
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 208 78% 28%;
+    
+    /* Border Radius */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* SHIFA LINK Design System Colors - Dark Mode */
+    /* Background & Base */
+    --background: 222 47% 8%;
+    --foreground: 0 0% 98%;
+    --card: 222 47% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 222 47% 12%;
+    --popover-foreground: 0 0% 98%;
+    
+    /* Primary: Emergency Blue (lighter for dark mode) */
+    --primary: 208 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary: Dark Gray */
+    --secondary: 222 30% 18%;
+    --secondary-foreground: 0 0% 98%;
+    
+    /* Accent: Emergency Red (slightly brighter) */
+    --accent: 0 70% 55%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* Muted */
+    --muted: 222 30% 18%;
+    --muted-foreground: 215 20% 65%;
+    
+    /* Destructive: Emergency Red */
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Success: Green (lighter for dark mode) */
+    --success: 123 50% 45%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Warning: Amber (lighter for dark mode) */
+    --warning: 25 95% 55%;
+    --warning-foreground: 0 0% 100%;
+    
+    /* Danger: Emergency Red */
+    --danger: 0 70% 55%;
+    --danger-foreground: 0 0% 100%;
+    
+    /* Borders & Inputs */
+    --border: 222 30% 20%;
+    --input: 222 30% 20%;
+    --ring: 208 70% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer components {
+  /* Typography System - Use Tailwind's text-[size] classes directly */
+  /* Example: text-h1, text-h2, text-h3, text-body, etc. */
+}
+

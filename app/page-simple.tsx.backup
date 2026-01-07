@@ -1,0 +1,10 @@
+// Backup - testing simple version
+export default function HomeSimple() {
+  return (
+    <div style={{ padding: "2rem" }}>
+      <h1>SHIFA LINK</h1>
+      <p>Testing...</p>
+    </div>
+  );
+}
+
