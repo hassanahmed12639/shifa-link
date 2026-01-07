@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { gsap } from "gsap";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
@@ -47,17 +47,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {
     const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-    // Merge refs using a stable callback
-    const setRefs = React.useCallback(
+    // Merge refs - store ref in a ref to make it stable
+    const refRef = useRef(ref);
+    refRef.current = ref;
+
+    const setRefs = useCallback(
       (node: HTMLButtonElement | null) => {
         buttonRef.current = node;
-        if (typeof ref === "function") {
-          ref(node);
-        } else if (ref && "current" in ref) {
-          (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
+        const currentRef = refRef.current;
+        if (typeof currentRef === "function") {
+          currentRef(node);
+        } else if (currentRef && "current" in currentRef) {
+          (currentRef as React.MutableRefObject<HTMLButtonElement | null>).current = node;
         }
       },
-      [ref]
+      []
     );
 
     useEffect(() => {
